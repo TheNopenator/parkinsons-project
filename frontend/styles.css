@@ -34,7 +34,7 @@ h1 {
 }
 
 h2 {
-    font-size: 18px;
+    font-size: 32px;
 }
 
 h1, h2, h3 {
@@ -223,11 +223,49 @@ h1.giant-logo {
 h1.giant-description {
     font-size: 48px;
     font-weight: 800;
-    padding-top: 20px;
-    padding-left: 100px;
-    padding-right: 100px;
+    padding-top: 10px;
+    padding-left: 50px;
+    padding-right: 50px;
+    max-width: 900px;
     font-family: 'Montserrat', sans-serif;
     letter-spacing: 2px;
-    line-height: 2;
-    text-transform: lowercase;
+    line-height: 1.7;
+    margin: 0;
+    color: #FFF;
+    text-shadow: 2px 4px 6px rgba(0, 0, 0, 0.6);
+}
+
+.highlight-box {
+    background: rgba(102, 171, 157, 0.9);
+    padding: 0px;
+    border-radius: 15px;
+    box-shadow: 0 8x 20px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+    margin: 0 auto;
+    border: 2px solid #90e0a3;
+    backdrop-filter: blur(5px);
+}
+
+.highlight-special {
+    background: linear-gradient(90deg, #ff6b6b, #feca57);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+    text-shadow: none;
+}
+
+.highlight-special2 {
+    background: linear-gradient(90deg, #686565, #3b3b39);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+    text-shadow: none;
+}
+
+.highlight-special3 {
+    background: linear-gradient(90deg, #5177f3, #6f4ed1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+    text-shadow: none;
 }
