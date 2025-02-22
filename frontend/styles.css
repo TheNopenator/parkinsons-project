@@ -169,7 +169,7 @@ h1.giant-logo {
 h1.giant-description {
     font-size: 48px;
     font-weight: 800;
-    padding-top: 10px;
+    padding-top: 5px;
     padding-left: 50px;
     padding-right: 50px;
     max-width: 900px;
@@ -179,11 +179,11 @@ h1.giant-description {
     margin: 0;
     color: #FFF;
     text-shadow: 
-        1px 1px 0 #d3d3d3, /* Light gray */
-        2px 2px 0 #a9a9a9, /* Medium gray */
-        3px 3px 0 #696969, /* Dark gray */
-        4px 4px 0 #333333, /* Darker gray */
-        5px 5px 0 #000000; /* Black */
+        1px 1px 0 #d3d3d3,
+        2px 2px 0 #a9a9a9,
+        3px 3px 0 #696969,
+        4px 4px 0 #333333,
+        5px 5px 0 #000000;
 }
 
 .highlight-box {
@@ -195,6 +195,23 @@ h1.giant-description {
     margin: 0 auto;
     border: 2px solid #90e0a3;
     backdrop-filter: blur(5px);
+
+    box-shadow: 
+        3px 3px 5px #d3d3d3,
+        6px 6px 10px #a9a9a9,
+        9px 9px 15px #696969,
+        12px 12px 20px #333333;
+
+    transition: transform 0.2s;
+}
+
+.highlight-box:hover {
+    transform: translateY(5px);
+    box-shadow:
+        2px 2px 4px #d3d3d3,
+        4px 4px 8px #a9a9a9,
+        6px 6px 12px #696969,
+        8px 8px 16px #333333;
 }
 
 .highlight-special {
@@ -219,4 +236,13 @@ h1.giant-description {
     -webkit-text-fill-color: transparent;
     font-weight: 800;
     text-shadow: none;
+}
+
+p.contacts {
+    font-size: 20px;
+    bottom: 5px;
+    color: #FFF;
+    margin-left: auto;
+    margin-right: 340px;
+    width: fit-content;
 }
