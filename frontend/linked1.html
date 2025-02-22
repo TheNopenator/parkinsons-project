@@ -13,19 +13,31 @@
     <div id="sidebar" class="sidebar">
         <a href="javascript:void(0)" class = "close-btn" onclick="closeSidebar()">x</a>
         <h3 id="fun-facts">Parkinson's causes muscles to shake and freeze -- inhibiting movement and causing difficulty with writing, speaking, chewing, and getting dressed.</h3>
-        <a href="linked1.html" onclick="closeSidebar()" id="active">Active Processes</a>
     </div>
 
     <button class="open-btn" onclick="openSidebar()">☰ Open Sidebar</button>
     
     <main>
         <div id="main-content">
-            <h1 class="giant-logo">Parkinson's Disease Tracker</h1>
-
-            <h1 class="giant-description">Empowering you to take control of Parkinson's, every step of the way. Track your symptoms, stay alert, and find the support you need to thrive.</h1>
+            <h1>Parkinson's Disease Tracker</h1>
+            <img src="images/ribbon-removebg-preview.png" alt="A ribbon representing Parkinson's Disease Awareness" class="decal" />
+            
+            <h2>Active Processes</h2>
+            <h3>This page displays the processes you can access regarding the subject.</h3>
+            <table id="active-processes">
+                <thead>
+                    <tr>
+                        <th>Process</th>
+                        <th>Status</th>
+                        <th>Started</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
     </main>
-
+    <script src="tableInitializer.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
