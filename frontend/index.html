@@ -10,21 +10,22 @@
     <title>Parkinson's Disease Tracker</title>
 </head>
 <body>
+    <div id="sidebar" class="sidebar">
+        <h3 id="fun-facts">Parkinson's causes muscles to shake and freeze -- inhibiting movement and causing difficulty with writing, speaking, chewing, and getting dressed.</h3>
+        <a href="linked1.html" onclick="closeSidebar()" id="active">Active Processes</a>
+    </div>
+    
     <main>
-        <h1>Active Processes</h1>
-        <h2>This page displays the processes you can access regarding the subject.</h2>
-        <table id="active-processes">
-            <thead>
-                <tr>
-                    <th>Process</th>
-                    <th>Status</th>
-                    <th>Started</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-            <script src="tableInitializer.js"></script>
-        </table>
+        <div id="main-content">
+            <h1 class="giant-logo"><a href="index.html">Parkinson's Disease Tracker</a></h1>
+
+            <div class="highlight-box">
+                <h1 class="giant-description">Empowering you to take control of <span class="highlight-special">Parkinson's</span>, every step of the way. Track your <span class="highlight-special2">symptoms</span>, stay alert, and find the <span class="highlight-special3">support</span> you need to thrive.</h1>
+            </div>
+        </div>
+        <p class="contacts">Contact us: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rlee397@gatech.edu &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (302) 898-8517</p>
     </main>
+
+    <script src="script.js"></script>
 </body>
 </html>

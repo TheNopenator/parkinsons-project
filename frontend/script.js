@@ -57,3 +57,10 @@
             center: userLocation
         });
     }
+
+    function openSidebar() {
+        document.body.classList.add('sidebar-open');
+        document.getElementById("main-content").style.marginLeft = "320px";
+    }
+
+    openSidebar();

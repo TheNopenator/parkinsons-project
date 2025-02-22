@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<link rel="stylesheet" href="styles.css">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parkinson's Disease Tracker</title>
+</head>
+<body>
+    <div id="sidebar" class="sidebar">
+        <h3 id="fun-facts">Parkinson's causes muscles to shake and freeze -- inhibiting movement and causing difficulty with writing, speaking, chewing, and getting dressed.</h3>
+        <a href="index.html" onclick="closeSidebar()" id="active">Home Page</a>
+    </div>
+    
+    <main>
+        <div id="main-content">
+            <h1><a href="index.html">Parkinson's Disease Tracker</a></h1>
+            <img src="images/ribbon-removebg-preview.png" alt="A ribbon representing Parkinson's Disease Awareness" class="decal" />
+            
+            <h2>Active Processes</h2>
+            <h3>This page displays the processes you can access regarding the subject.</h3>
+            <table id="active-processes">
+                <thead>
+                    <tr>
+                        <th>Process</th>
+                        <th>Status</th>
+                        <th>Started</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <script src="tableInitializer.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
