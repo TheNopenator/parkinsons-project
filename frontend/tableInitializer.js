@@ -1,6 +1,17 @@
 // Initializes the front page's table
 const tableData = [
-    { process: 'Current Location', status: 'Running', started: '0 seconds ago'}
+    { process: 'Current Location', status: 'Running', started: '0 seconds ago'},
+    { process: 'Health Status', status: 'Inactive', started: '12 seconds ago'},
+    { process: 'Current Location', status: 'Running', started: '0 seconds ago'},
+    { process: 'Health Status', status: 'Inactive', started: '12 seconds ago'},
+    { process: 'Current Location', status: 'Running', started: '0 seconds ago'},
+    { process: 'Health Status', status: 'Inactive', started: '12 seconds ago'},
+    { process: 'Current Location', status: 'Running', started: '0 seconds ago'},
+    { process: 'Health Status', status: 'Inactive', started: '12 seconds ago'},
+    { process: 'Current Location', status: 'Running', started: '0 seconds ago'},
+    { process: 'Health Status', status: 'Inactive', started: '12 seconds ago'},
+    { process: 'Current Location', status: 'Running', started: '0 seconds ago'},
+    { process: 'Health Status', status: 'Inactive', started: '12 seconds ago'}
 ]
 
 const tableBody = document.querySelector('#active-processes tbody');

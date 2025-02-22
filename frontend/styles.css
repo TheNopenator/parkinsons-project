@@ -4,7 +4,7 @@ html, body {
     padding: 0;
     font-family: 'Open Sans', sans-serif;
     text-align: center;
-    overflow: hidden; /* Prevent scrollbars */
+    overflow: hidden;
     background: linear-gradient(to right, #00A9A5, #6B6B6B, #000000);
     color: #333333;
 }
@@ -122,6 +122,7 @@ a {
     left: 0;
     background-color: #333;
     overflow-x: hidden;
+    overflow-y: hidden;
     transition: 0.5s;
     padding-top: 60px;
     opacity: 1;
@@ -148,6 +149,8 @@ a {
 #main-content {
     transition: margin-left 0.5s;
     padding: 20px;
+    height: 100vh;
+    overflow-y: auto;
 }
 
 .sidebar #fun-facts {
@@ -261,4 +264,19 @@ a.menu-item {
     color: #2cbc8c;
     font-weight: 800;
     text-decoration: underline;
+}
+
+#active-processes {
+    max-height: 60vh;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#active-processes thead {
+    position: sticky;
+    top: -22px;
+    background-color: #90e0a3;
+    z-index: 10;
 }
