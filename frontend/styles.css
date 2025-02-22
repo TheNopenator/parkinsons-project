@@ -97,6 +97,14 @@ tr:last-child td {
     z-index: 10;
 }
 
+.mural {
+    position: relative;
+    bottom: 5;
+    left: 0;
+    width: 160px;
+    z-index:15;
+}
+
 p {
     color: #444444;
 }
@@ -148,6 +156,7 @@ a {
     transition: opacity 0.5s ease, visibility 0.5s ease;
     color: #d4a3a3;
     padding: 20px;
+    text-align: left;
 }
 
 .sidebar-open #fun-facts {
@@ -245,4 +254,11 @@ p.contacts {
     margin-left: auto;
     margin-right: 340px;
     width: fit-content;
+}
+
+a.menu-item {
+    font-size: 30px;
+    color: #2cbc8c;
+    font-weight: 800;
+    text-decoration: underline;
 }
