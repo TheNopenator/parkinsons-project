@@ -1,4 +1,4 @@
-function loadAll() {
+
     let map;  // Global map variable
 
     // Initialize the map
@@ -11,7 +11,7 @@ function loadAll() {
 
     function getLocation() {
         // Use the Geolocation API to get the current position
-        fetch('https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyB5nXmXgfKvakxNr6hTwO-CzHbGrK-3qno', {
+        fetch('https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyB5nXmXgfKvakxNr6hTwO-CzHbGrK-3qno&callback=initMap', {
             method: 'POST',
         })
             .then(response => response.json())
@@ -57,4 +57,3 @@ function loadAll() {
             center: userLocation
         });
     }
-}
