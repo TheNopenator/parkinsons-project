@@ -4,32 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Get User Location</title>
-    <!-- Include Google Maps API -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5nXmXgfKvakxNr6hTwO-CzHbGrK-3qno&callback=initMap" async defer></script>
 </head>
 <body>
     <h1>Get User Location</h1>
     <input type="text" id="name" placeholder="Enter User's Name">
-    <button onclick="getLocation()">Get Location</button>
-
+    <button onclick="startUpdatingLocation()">Start Live Location Update</button>
+    
     <div id="location"></div>
-
-    <!-- Google Map container -->
     <div id="map" style="height: 400px; width: 100%;"></div>
 
     <script>
-        let map;
-        let marker;
+        let map, marker, circle;
+        let locationInterval;
 
-        // Initialize Google Map
         function initMap() {
             map = new google.maps.Map(document.getElementById("map"), {
-                center: { lat: 37.7749, lng: -122.4194 },  // Default center (San Francisco)
+                center: { lat: 37.7749, lng: -122.4194 },  
                 zoom: 10,
             });
         }
 
-        // Function to fetch location based on name
         async function getLocation() {
             const name = document.getElementById("name").value;
 
@@ -38,29 +33,30 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    // Update the HTML to show location
                     document.getElementById("location").innerHTML = `
                         <p>Latitude: ${data.latitude}</p>
                         <p>Longitude: ${data.longitude}</p>
-                        <p>Timestamp: ${new Date(data.timestamp).toLocaleString()}</p>
+                        <p>Radius: ${data.radius} meters</p>
+                        <p>Last Updated: ${new Date(data.timestamp).toLocaleString()}</p>
                     `;
 
-                    // Update the Google Map with the new location
                     const position = { lat: data.latitude, lng: data.longitude };
 
-                    // If a marker already exists, remove it
-                    if (marker) {
-                        marker.setMap(null);
-                    }
+                    if (marker) marker.setMap(null);
+                    marker = new google.maps.Marker({ position, map, title: name });
 
-                    // Add a new marker at the new location
-                    marker = new google.maps.Marker({
-                        position,
-                        map: map,
-                        title: name,
+                    if (circle) circle.setMap(null);
+                    circle = new google.maps.Circle({
+                        strokeColor: "#FF0000",
+                        strokeOpacity: 0.8,
+                        strokeWeight: 2,
+                        fillColor: "#FF0000",
+                        fillOpacity: 0.35,
+                        map,
+                        center: position,
+                        radius: data.radius,
                     });
 
-                    // Center the map on the new location
                     map.setCenter(position);
                     map.setZoom(15);
                 } else {
@@ -69,6 +65,20 @@
             } catch (error) {
                 document.getElementById("location").innerHTML = `<p>Error: ${error.message}</p>`;
             }
+        }
+
+        function startUpdatingLocation() {
+            const name = document.getElementById("name").value;
+            if (name) {
+                getLocation();
+                locationInterval = setInterval(getLocation, 5000);
+            } else {
+                alert("Please enter a name!");
+            }
+        }
+
+        function stopUpdatingLocation() {
+            clearInterval(locationInterval);
         }
     </script>
 </body>
