@@ -63,7 +63,4 @@
         document.getElementById("main-content").style.marginLeft = "320px";
     }
 
-    function closeSidebar() {
-        document.body.classList.remove('sidebar-open');
-        document.getElementById("main-content").style.marginLeft = "0";
-    }
+    openSidebar();
