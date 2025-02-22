@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get User Location</title>
+    <!-- Include Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5nXmXgfKvakxNr6hTwO-CzHbGrK-3qno&callback=initMap" async defer></script>
+</head>
+<body>
+    <h1>Get User Location</h1>
+    <input type="text" id="name" placeholder="Enter User's Name">
+    <button onclick="getLocation()">Get Location</button>
+
+    <div id="location"></div>
+
+    <!-- Google Map container -->
+    <div id="map" style="height: 400px; width: 100%;"></div>
+
+    <script>
+        let map;
+        let marker;
+
+        // Initialize Google Map
+        function initMap() {
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: 37.7749, lng: -122.4194 },  // Default center (San Francisco)
+                zoom: 10,
+            });
+        }
+
+        // Function to fetch location based on name
+        async function getLocation() {
+            const name = document.getElementById("name").value;
+
+            try {
+                const response = await fetch(`http://localhost:5000/get-location?name=${name}`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Update the HTML to show location
+                    document.getElementById("location").innerHTML = `
+                        <p>Latitude: ${data.latitude}</p>
+                        <p>Longitude: ${data.longitude}</p>
+                        <p>Timestamp: ${new Date(data.timestamp).toLocaleString()}</p>
+                    `;
+
+                    // Update the Google Map with the new location
+                    const position = { lat: data.latitude, lng: data.longitude };
+
+                    // If a marker already exists, remove it
+                    if (marker) {
+                        marker.setMap(null);
+                    }
+
+                    // Add a new marker at the new location
+                    marker = new google.maps.Marker({
+                        position,
+                        map: map,
+                        title: name,
+                    });
+
+                    // Center the map on the new location
+                    map.setCenter(position);
+                    map.setZoom(15);
+                } else {
+                    document.getElementById("location").innerHTML = `<p>${data.message}</p>`;
+                }
+            } catch (error) {
+                document.getElementById("location").innerHTML = `<p>Error: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>

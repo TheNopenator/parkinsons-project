@@ -1,0 +1,25 @@
+{
+  "name": "parkinsons-project",
+  "version": "1.0.0",
+  "description": "Repository for all things related to our Parkinson's Disease tracking and assistance software for Hacklytics 2025 @ Georgia Tech!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheNopenator/parkinsons-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheNopenator/parkinsons-project/issues"
+  },
+  "homepage": "https://github.com/TheNopenator/parkinsons-project#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "mongoose": "^8.10.1"
+  }
+}
