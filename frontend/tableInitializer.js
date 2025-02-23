@@ -100,7 +100,10 @@ function openLocation(name, process) {
                         });
                         startUpdatingLocation();
                     } else if ("${process}" === "Health Status") {
-                        // Hide map and show health status with heart image
+                        tableData.forEach((user, index) => {
+                            getFallStatus(user.name, index);
+                        });
+
                         document.getElementById("map").style.display = "none";
                         document.getElementById("location").innerHTML = \`
                             <div class="health-status">
@@ -112,6 +115,24 @@ function openLocation(name, process) {
                         \`;
                     }
                 };
+
+                async function getFallStatus(name, index) {
+                    try {
+                        const response = await fetch(\`https://locusqol.tech/fall-status/${encodeURIComponent(name)}\`);
+                        const data = await response.json();
+
+                        if (response.ok) {
+                            tableData[index].fall_status = data.fallStatus === 1 ? 'fall' : 'normal';
+                        } else {
+                            tableData[index].fall_status = 'normal';
+                        }
+
+                        renderTable();
+                    } catch (error) {
+                        tableData[index].fall_status = 'normal';
+                        renderTable();
+                    }
+                }        
 
                 async function getLocation() {
                     const name = "${name}";
