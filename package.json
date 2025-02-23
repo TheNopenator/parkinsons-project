@@ -4,6 +4,7 @@
   "description": "Repository for all things related to our Parkinson's Disease tracking and assistance software for Hacklytics 2025 @ Georgia Tech!",
   "main": "index.js",
   "scripts": {
+    "start": "node webpage.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -11,7 +12,7 @@
     "url": "git+https://github.com/TheNopenator/parkinsons-project.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Rick Lee",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/TheNopenator/parkinsons-project/issues"
@@ -26,5 +27,9 @@
     "mongoose": "^8.10.1",
     "telesignsdk": "^3.0.2",
     "twilio": "^5.4.5"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": "22.14.0"
   }
 }
