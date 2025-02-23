@@ -108,7 +108,7 @@ function openLocation(name, process) {
                                 <p>Last Updated: \${new Date(data.timestamp).toLocaleString()}</p>
                             \`;
 
-                            const position = { lat: data.latitude, lng: data.longitude };
+                            const position = { lat: data.location.lat, lng: data.location.lng };
 
                             if (!marker) {
                                 marker = new google.maps.Marker({
