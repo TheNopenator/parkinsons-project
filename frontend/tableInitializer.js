@@ -1,17 +1,17 @@
 // Initializes the front page's table
 const tableData = [
-    { process: 'Current Location', name: 'John Doe', last_called: '0 seconds ago'},
-    { process: 'Health Status', name: 'John Doe', last_called: '12 seconds ago'},
-    { process: 'Current Location', name: 'Jane Smith', last_called: '0 seconds ago'},
-    { process: 'Health Status', name: 'Jane Smith', last_called: '12 seconds ago'},
-    { process: 'Current Location', name: 'Bob Johnson', last_called: '0 seconds ago'},
-    { process: 'Health Status', name: 'Bob Johnson', last_called: '12 seconds ago'},
-    { process: 'Current Location', name: 'Alice Brown', last_called: '0 seconds ago'},
-    { process: 'Health Status', name: 'Alice Brown', last_called: '12 seconds ago'},
-    { process: 'Current Location', name: 'Charlie Wilson', last_called: '0 seconds ago'},
-    { process: 'Health Status', name: 'Charlie Wilson', last_called: '12 seconds ago'},
-    { process: 'Current Location', name: 'Daniel Green', last_called: '0 seconds ago'},
-    { process: 'Health Status', name: 'Daniel Green', last_called: '12 seconds ago'}
+    { process: 'Current Location', name: 'John Doe', last_called: 'Never'},
+    { process: 'Health Status', name: 'John Doe', last_called: 'Never'},
+    { process: 'Current Location', name: 'Jane Smith', last_called: 'Never'},
+    { process: 'Health Status', name: 'Jane Smith', last_called: 'Never'},
+    { process: 'Current Location', name: 'Bob Johnson', last_called: 'Never'},
+    { process: 'Health Status', name: 'Bob Johnson', last_called: 'Never'},
+    { process: 'Current Location', name: 'Alice Brown', last_called: 'Never'},
+    { process: 'Health Status', name: 'Alice Brown', last_called: 'Never'},
+    { process: 'Current Location', name: 'Charlie Wilson', last_called: 'Never'},
+    { process: 'Health Status', name: 'Charlie Wilson', last_called: 'Never'},
+    { process: 'Current Location', name: 'Daniel Green', last_called: 'Never'},
+    { process: 'Health Status', name: 'Daniel Green', last_called: 'Never'}
 ]
 
 const tableBody = document.querySelector('#active-processes tbody');
