@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
 html, body {
     height: 100%;
     margin: 0;
@@ -91,9 +93,9 @@ tr:last-child td {
     position: relative;
     top: 0;
     left: 0;
-    width: 70px;
-    margin-left: -780px;
-    margin-top: -100px;
+    width: 90px;
+    margin-left: -1000px;
+    margin-top: -400px;
     z-index: 10;
 }
 
@@ -110,7 +112,7 @@ p {
 }
 
 a {
-    color: #FFF;
+    color: #12654e;
     text-decoration: none;
 }
 
@@ -124,7 +126,7 @@ a {
     overflow-x: hidden;
     overflow-y: hidden;
     transition: 0.5s;
-    padding-top: 60px;
+    padding-top: 0;
     opacity: 1;
     visibility: visible;
     padding-right: 0px;
@@ -132,7 +134,7 @@ a {
 }
 
 .sidebar a {
-    padding: 10px 0px;
+    padding: 0 0 10px 10px;
     text-decoration: none;
     font-size: 18px;
     color: #f4f4f4;
@@ -154,12 +156,24 @@ a {
     overflow-y: auto;
 }
 
+.sidebar #logo {
+    font-family: "Bebas Neue", cursive;
+    font-size: 40px;
+    padding: 0 0 0 0;
+    letter-spacing: 5px;
+    background: linear-gradient(to right, #ff0044 0%, #ffea00 20%, #32cc33 40%, #00bfff 60%, #8a2be2 80%);
+    -webkit-background-clip: text;
+    color: transparent;
+    font-weight: bold;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+}
+
 .sidebar #fun-facts {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.5s ease, visibility 0.5s ease;
     color: #d4a3a3;
-    padding: 20px;
+    padding: 0 0 20px 20px;
     text-align: left;
     max-width: 300px;
 }
@@ -176,8 +190,14 @@ a {
 }
 
 h1.giant-logo {
-    font-size: 65px;
-    font-weight: bold;
+    font-size: 75px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-weight: 800;
+    letter-spacing: 5px;
+    text-shadow: 
+        2px 2px 5px rgba(0, 0, 0, 0.3),
+        0px 0px 25px rgba(255, 255, 255, 0.8),
+        0px 0px 15px rgba(255, 255, 255, 0.8);
 }
 
 h1.giant-description {
@@ -266,7 +286,7 @@ a.menu-item {
     color: #2cbc8c;
     font-weight: 800;
     text-decoration: underline;
-    text-align: center;
+    padding-right: 25px;
 }
 
 #active-processes {
