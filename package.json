@@ -4,7 +4,8 @@
   "description": "Repository for all things related to our Parkinson's Disease tracking and assistance software for Hacklytics 2025 @ Georgia Tech!",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node webpage.js"
   },
   "repository": {
     "type": "git",
