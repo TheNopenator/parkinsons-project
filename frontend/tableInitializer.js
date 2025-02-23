@@ -100,12 +100,10 @@ function openLocation(name, process) {
                         const data = await response.json();
 
                         if (response.ok) {
-                            document.getElementById("location").innerHTML = \`
-                                <p>Latitude: \${data.latitude}</p>
-                                <p>Longitude: \${data.longitude}</p>
-                                <p>Radius: \${data.radius} meters</p>
-                                <p>Last Updated: \${new Date(data.timestamp).toLocaleString()}</p>
-                            \`;
+                            document.getElementById("location").innerHTML = "<p>Latitude: " + data.latitude + "</p>" +
+                            "<p>Longitude: " + data.longitude + "</p>" +
+                            "<p>Radius: " + data.radius + " meters</p>" +
+                            "<p>Last Updated: " + new Date(data.timestamp).toLocaleString() + "</p>";
 
                             const position = { lat: data.latitude, lng: data.longitude };
 
