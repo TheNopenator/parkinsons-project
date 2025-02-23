@@ -7,6 +7,18 @@ const TeleSignSDK = require("telesignsdk");
 const app = express();
 app.use(cors());
 
+app.get('/fall-status/:name', async (req, res) => {
+    const name = req.params.name;
+    try {
+        const fallStatus = await getFallStatus(name);
+        res.json({ fallStatus });
+    } catch (error) {
+        console.error("Error fetching fall status:", error);
+        res.status(500).json({ error: "Failed to fetch fall status" });
+    }
+});
+
+
 // TeleSign API Credentials
 const customerId = "BDB69E86-9DB9-4EA1-B9F1-029640C7A68C";
 const apiKey = "LeNRpMiOTEuNPWskahS0LaOQBlNszSDjBti7PEBV2cFgsiQGWw3yFxgD0OCtaZPKgoITd6gHeoSXI1hPXu5qdw==";

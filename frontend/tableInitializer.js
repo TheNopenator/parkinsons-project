@@ -1,18 +1,17 @@
-// Initializes the front page's table
 const tableData = [
-    { process: 'Current Location', name: 'John Doe', last_called: 'Never'},
-    { process: 'Health Status', name: 'John Doe', last_called: 'Never'},
-    { process: 'Current Location', name: 'Jane Smith', last_called: 'Never'},
-    { process: 'Health Status', name: 'Jane Smith', last_called: 'Never'},
-    { process: 'Current Location', name: 'Bob Johnson', last_called: 'Never'},
-    { process: 'Health Status', name: 'Bob Johnson', last_called: 'Never'},
-    { process: 'Current Location', name: 'Alice Brown', last_called: 'Never'},
-    { process: 'Health Status', name: 'Alice Brown', last_called: 'Never'},
-    { process: 'Current Location', name: 'Charlie Wilson', last_called: 'Never'},
-    { process: 'Health Status', name: 'Charlie Wilson', last_called: 'Never'},
-    { process: 'Current Location', name: 'Daniel Green', last_called: 'Never'},
-    { process: 'Health Status', name: 'Daniel Green', last_called: 'Never'}
-]
+    { process: 'Current Location', name: 'John Doe', last_called: 'Never' },
+    { process: 'Health Status', name: 'John Doe', last_called: 'Never' },
+    { process: 'Current Location', name: 'Jane Smith', last_called: 'Never' },
+    { process: 'Health Status', name: 'Jane Smith', last_called: 'Never' },
+    { process: 'Current Location', name: 'Bob Johnson', last_called: 'Never' },
+    { process: 'Health Status', name: 'Bob Johnson', last_called: 'Never' },
+    { process: 'Current Location', name: 'Alice Brown', last_called: 'Never' },
+    { process: 'Health Status', name: 'Alice Brown', last_called: 'Never' },
+    { process: 'Current Location', name: 'Charlie Wilson', last_called: 'Never' },
+    { process: 'Health Status', name: 'Charlie Wilson', last_called: 'Never' },
+    { process: 'Current Location', name: 'Daniel Green', last_called: 'Never' },
+    { process: 'Health Status', name: 'Daniel Green', last_called: 'Never' }
+];
 
 const tableBody = document.querySelector('#active-processes tbody');
 
@@ -53,7 +52,7 @@ function openLocation(name, process) {
     const left = ((screen.width / 2) - (width / 2));
     const top = ((screen.height / 2) - (height / 2));
     const newWindow = window.open("", "locationWindow", `width=${width},height=${height},left=${left},top=${top}`);
-    
+
     const locationData = { name, process };
     newWindow.locationData = locationData;
 
@@ -61,6 +60,7 @@ function openLocation(name, process) {
     newWindow.document.write(`
         <!DOCTYPE html>
         <html lang="en">
+        <link rel="stylesheet" href="styles.css">
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -70,6 +70,14 @@ function openLocation(name, process) {
                     width: 100%;
                     height: 100vh;
                     border: 2px solid black;
+                }
+                .health-status {
+                    text-align: center;
+                    margin-top: 20px;
+                }
+                .health-status img {
+                    width: 200px;
+                    height: 200px;
                 }
             </style>
             <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5nXmXgfKvakxNr6hTwO-CzHbGrK-3qno&callback=initMap" async defer></script>
@@ -83,27 +91,37 @@ function openLocation(name, process) {
                 let map, marker, circle, line;
                 let locationInterval;
 
-                function initMap() {
-                    map = new google.maps.Map(document.getElementById("map"), {
-                        center: { lat: 40.7128, lng: -74.0060 },
-                        zoom: 15
-                    });
-
-                    startUpdatingLocation();
-                }
+                window.onload = function() {
+                    if ("${process}" === "Current Location") {
+                        // Initialize and show map
+                        map = new google.maps.Map(document.getElementById("map"), {
+                            center: { lat: 40.7128, lng: -74.0060 },
+                            zoom: 15
+                        });
+                        startUpdatingLocation();
+                    } else if ("${process}" === "Health Status") {
+                        // Hide map and show health status with heart image
+                        document.getElementById("map").style.display = "none";
+                        document.getElementById("location").innerHTML = \`
+                            <div class="health-status">
+                                <img src="images/heart-removebg-preview.png" alt="A heart icon containing the user's heart rate" />
+                                <h3>User's Heartbeat</h3>
+                                <p class="bpm" style='color: #FFF; position: fixed; top: 175px; left: 420px;'>HR: 72 BPM</p>
+                                <p style='color: #FFF;'>Last Updated: \${new Date().toLocaleString()}</p>
+                            </div>
+                        \`;
+                    }
+                };
 
                 async function getLocation() {
                     const name = "${name}";
 
                     try {
-                        console.log('Fetching location for:', name);
                         const response = await fetch(\`https://locusqol.tech/get-location?name=${encodeURIComponent(name)}\`, {
                             cache: 'no-cache',
                         });
 
                         const data = await response.json();
-
-                        console.log("Fetched data:", data);
 
                         if (response.ok) {
                             document.getElementById("location").innerHTML = \`
@@ -183,9 +201,5 @@ function openLocation(name, process) {
         </body>
         </html>
     `);
-
     newWindow.document.close();
-    newWindow.onload = () => {
-        initMap();
-    };
 }
