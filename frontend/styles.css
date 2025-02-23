@@ -116,7 +116,7 @@ a {
 
 .sidebar {
     height: 100%;
-    width: 320px;
+    width: 330px;
     position: fixed;
     top: 0;
     left: 0;
@@ -127,19 +127,20 @@ a {
     padding-top: 60px;
     opacity: 1;
     visibility: visible;
-    padding-right: 30px;
+    padding-right: 0px;
     z-index: 1000;
 }
 
 .sidebar a {
-    padding: 10px 20px;
+    padding: 10px 0px;
     text-decoration: none;
     font-size: 18px;
     color: #f4f4f4;
     display: block;
-    transition: 0.3s;
+    transition: background-color 0.3s, opacity 0.3s ease, visibility 0 0.3s;
     opacity: 0;
     visibility: hidden;
+    text-align: center;
 }
 
 .sidebar a:hover {
@@ -160,6 +161,7 @@ a {
     color: #d4a3a3;
     padding: 20px;
     text-align: left;
+    max-width: 300px;
 }
 
 .sidebar-open #fun-facts {
