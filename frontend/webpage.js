@@ -4,6 +4,7 @@ const path = require('path');
 const http = require('http');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const cron = require('node-cron');
 const port = process.env.PORT || 5000;
 
 const mongoURI = 'mongodb+srv://mykelxu:RiceCream124!@parkinsonsdata.5iolr.mongodb.net/locationTracker?retryWrites=true&w=majority';
@@ -60,6 +61,32 @@ app.get('/get-location', async (req, res) => {
   } catch (error) {
       console.error('Error fetching location:', error);
       res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+cron.schedule('*/5 * * * * *', async () => {
+  try {
+    console.log('Updating user locations...');
+
+    const users = await Location.find();
+
+    for (let user of users) {
+      const currentLat = user.location.lat + (Math.random() - 0.5) * 0.01;
+      const currentLng = user.location.lng + (Math.random() - 0.5) * 0.01;
+      const newLocation = { lat: currentLat, lng: currentLng };
+
+      await Location.updateOne(
+        { user_id: user.user_id },
+        { 
+          location: newLocation, 
+          timestamp: new Date() 
+        }
+      );
+
+      console.log(`Updated ${user.name}'s location to: ${currentLat}, ${currentLng}`);
+    }
+  } catch (error) {
+    console.error('Error updating locations:', error);
   }
 });
 

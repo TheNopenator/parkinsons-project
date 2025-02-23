@@ -25,10 +25,10 @@
     "express": "^4.21.2",
     "geolib": "^3.3.4",
     "mongoose": "^8.10.1",
+    "node-cron": "^3.0.3",
     "telesignsdk": "^3.0.2",
     "twilio": "^5.4.5"
   },
-  "devDependencies": {},
   "engines": {
     "node": "22.14.0"
   }
