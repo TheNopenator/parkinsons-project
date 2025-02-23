@@ -101,7 +101,7 @@ const sendAlert = async (userPhoneNumber, name, location) => {
 let SMSSentBool = false;
 const checkFalls = async () => {
     try {
-        const response = await axios.get('http://localhost:5001/predict_all');
+        const response = await axios.get('https://locusqol.tech/predict_all');
         const fallResults = response.data;
 
         for (const [name, [fallRate, phoneNumber]] of Object.entries(fallResults)) {
