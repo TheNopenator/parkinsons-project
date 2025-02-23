@@ -1,42 +1,48 @@
 from flask import Flask, jsonify
-from pymongo import MongoClient
-import numpy as np
 import pickle
-import os
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
+
+uri = "mongodb+srv://samuelc:DataScience123@falldb.ar6mh.mongodb.net/?retryWrites=true&w=majority&appName=fallDB"
+# Create a new client and connect to the server
+client = MongoClient(uri, server_api=ServerApi('1'))
 
 app = Flask(__name__)
-
 # Convert the Jupyter Notebook to a Python script
 with open("fall_detection_model.pkl", "rb") as f:
     model = pickle.load(f)
 
-# Connect to MongoDB
-client = MongoClient("mongodb+srv://samuelc:Datascience1@falldb.ar6mh.mongodb.net/")  # Update if using MongoDB Atlas
-db = client["fallDetectionDB"]
-collection = db["gyroData"]
+try:
+    # Send a ping to confirm a successful connection
+    client.admin.command('ping')
+    print("Pinged your deployment. You successfully connected to MongoDB!")
+    # Route for the home page
+    @app.route("/", methods=["GET"])
+    def home():
+        return "Flask app is working!"
 
-# Route for the root URL "/"
-@app.route("/", methods=["GET"])
-def home():
-    return "Welcome to the Fall Detection App!"
-
-@app.route("/predict", methods=["GET"])
-def predict_fall():
-    # Fetch latest gyro data
-    gyro_data = collection.find_one(sort=[("_id", -1)])
+    # Route for predicting fall detection
+    @app.route("/predict_all", methods=["GET"])
+    def predict_fall_all():
+    # Query data from the 'people' collection in the 'fall' database
+        db = client['fall']  # Access the 'fallDB' database
+        collection = db['people']  # Access the 'people' collection
     
-    if not gyro_data:
-        return jsonify({"error": "No data found"}), 404
-
-    # Extract relevant features
-    features = ["acc_max", "gyro_max", "post_gyro_max", "lin_max", "post_lin_max"]
-    input_data = np.array([gyro_data[feature] for feature in features]).reshape(1, -1)
-
-    # Predict
-    fall_prediction = model.predict(input_data)[0]
-    result = "fall detected" if fall_prediction == 1 else "no fall detected"
-
-    return jsonify({"result": result})
+        people_data = collection.find()
+        results = {}
+        # Add the query results to result list
+        for person in people_data:
+            acc_max = person['acc_max']
+            gyro_max = person['gyro_max']
+            post_gyro_max = person['post_gyro_max']
+            lin_max = person['lin_max']
+            post_lin_max = person['post_lin_max']
+            phone_number = person['phoneNumber']
+            fall_rate = model.predict([[acc_max, gyro_max, post_gyro_max, lin_max, post_lin_max]])
+            results[person['name']] = [int(fall_rate[0]), phone_number]
+        return jsonify(results)
+except Exception as e:
+    print(e)
 
 if __name__ == "__main__":
     app.run(port=5001, debug=True)  # Runs on localhost:5001
