@@ -303,3 +303,9 @@ a.menu-item {
     background-color: #90e0a3;
     z-index: 10;
 }
+
+p.geography {
+    position: fixed;
+    top: 100px;
+    left: 400px;
+}
