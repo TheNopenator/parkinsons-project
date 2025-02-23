@@ -96,7 +96,7 @@ function openLocation(name, process) {
                     const name = "${name}";
 
                     try {
-                        const response = await fetch('http://localhost:5000/get-location?name=' + encodeURIComponent(name));
+                        const response = await fetch('https://locusqol.tech/get-location?name=' + encodeURIComponent(name));
                         const data = await response.json();
 
                         if (response.ok) {
