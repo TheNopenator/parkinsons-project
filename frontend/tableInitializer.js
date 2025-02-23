@@ -49,25 +49,6 @@ function renderTable() {
 
 renderTable();
 
-tableData.forEach(rowData => {
-    const row = document.createElement('tr');
-    Object.entries(rowData).forEach(([key, value]) => {
-        const cell = document.createElement('td');
-        if (key === 'process') {
-            const button = document.createElement('button');
-            button.textContent = value;
-            button.addEventListener('click', () => {
-                openLocation(rowData.name, rowData.process);
-            });
-            cell.appendChild(button);
-        } else {
-            cell.textContent = value;
-        }
-        row.appendChild(cell);
-    });
-    tableBody.appendChild(row);
-});
-
 function openLocation(name, process) {
     const width = 1000;
     const height = 750;
@@ -75,6 +56,9 @@ function openLocation(name, process) {
     const top = ((screen.height / 2) - (height / 2));
     const newWindow = window.open("", "locationWindow", `width=${width},height=${height},left=${left},top=${top}`);
     
+    const locationData = { name, process };
+    newWindow.locationData = locationData;
+
     newWindow.document.open();
     newWindow.document.write(`
         <!DOCTYPE html>
@@ -82,7 +66,7 @@ function openLocation(name, process) {
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Location</title>
+            <title>Get User Location</title>
             <style>
                 #map {
                     width: 100%;
@@ -90,14 +74,19 @@ function openLocation(name, process) {
                     border: 2px solid black;
                 }
             </style>
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5nXmXgfKvakxNr6hTwO-CzHbGrK-3qno&callback=initMap" async defer></script>
         </head>
-        <body> 
+        <body>
+            <h1>Get User Location</h1>
+            <input type="text" id="name" placeholder="Enter User's Name">
+            <button onclick="startUpdatingLocation()">Start Live Location Update</button>
+            <button onclick="stopUpdatingLocation()">Stop Live Location Update</button>
+            <div id="location"></div>
             <div id="map"></div>
-            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5nXmXgfKvakxNr6hTwO-CzHbGrK-3qno"></script>
+
             <script>
-                let map;
-                const name = '${name}';
-                const process = '${process}';
+                let map, marker, circle, line;
+                let locationInterval;
 
                 function initMap() {
                     console.log("initMap called");
@@ -105,58 +94,94 @@ function openLocation(name, process) {
                         center: { lat: 40.7128, lng: -74.0060 },
                         zoom: 15
                     });
-                    getLocation();
                 }
 
                 async function getLocation() {
+                    const name = document.getElementById("name").value;
+
                     try {
                         const response = await fetch('http://localhost:5000/get-location?name=' + encodeURIComponent(name));
                         const data = await response.json();
 
                         if (response.ok) {
-                            const lat = data.latitude;
-                            const lng = data.longitude;
-                            showLocationOnMap(lat, lng);
+                            document.getElementById("location").innerHTML = \`
+                                <p>Latitude: \${data.latitude}</p>
+                                <p>Longitude: \${data.longitude}</p>
+                                <p>Radius: \${data.radius} meters</p>
+                                <p>Last Updated: \${new Date(data.timestamp).toLocaleString()}</p>
+                            \`;
+
+                            const position = { lat: data.latitude, lng: data.longitude };
+
+                            if (!marker) {
+                                marker = new google.maps.Marker({map, title: name});
+                            }
+                            marker.setPosition(position);
+
+                            if (!circle) {
+                                circle = new google.maps.Circle({
+                                    strokeColor: "#0000FF",
+                                    strokeOpacity: 0.8,
+                                    strokeWeight: 2,
+                                    fillColor: "#0000FF",
+                                    fillOpacity: 0.35,
+                                    map,
+                                    center: position,
+                                    radius: data.radius,
+                                });
+                            }
+
+                            if (!line) {
+                                line = new google.maps.Polyline({
+                                    strokeColor: "#0000FF",
+                                    strokeOpacity: 1.0,
+                                    strokeWeight: 2,
+                                    map: map,
+                                    path: [circle.getCenter(), marker.getPosition()],
+                                    icon: [{
+                                        icon: {
+                                            path: 'M 0,-1 0,1',
+                                            strokeOpacity: 1,
+                                            scale: 4,
+                                        },
+                                        offset: '0',
+                                        repeat: '10px'
+                                    }],
+                                });
+                            } else {
+                                line.setPath([circle.getCenter(), marker.getPosition()]);
+                            }
+
+                            map.setCenter(position);
+                            map.setZoom(15);
                         } else {
-                            alert(data.message || "Error fetching user location.");
+                            document.getElementById("location").innerHTML = \`<p>\${data.message}</p>\`;
                         }
                     } catch (error) {
-                        alert("Error fetching location: " + error.message);
+                        document.getElementById("location").innerHTML = \`<p>Error: \${error.message}</p>\`;
                     }
                 }
 
-                function showLocationOnMap(lat, lng) {
-                    const userLocation = { lat: lat, lng: lng };
-                    map.setCenter(userLocation);
-
-                    new google.maps.Marker({
-                        position: userLocation,
-                        map: map,
-                        title: "You are here!"
-                    });
-
-                    new google.maps.Circle({
-                        map: map,
-                        radius: 1000,
-                        fillColor: '#FF0000',
-                        fillOpacity: 0.35,
-                        strokeColor: '#FF0000',
-                        strokeOpacity: 0.8,
-                        strokeWeight: 2,
-                        center: userLocation
-                    });
+                function startUpdatingLocation() {
+                    const name = document.getElementById("name").value;
+                    if (name) {
+                        getLocation();
+                        locationInterval = setInterval(getLocation, 5000);
+                    } else {
+                        alert("Please enter a name!");
+                    }
                 }
 
-                function displayUserInfo() {
-                    document.body.innerHTML += "<h1>" + process + " for " + name + "</h1>";
-                    document.body.innerHTML += "<p>Last updated: " + new Date().toLocaleTimeString() + "</p>";
+                function stopUpdatingLocation() {
+                    clearInterval(locationInterval);
                 }
-
-                window.onload = initMap;
             </script>
         </body>
         </html>
     `);
 
     newWindow.document.close();
+    newWindow.onload = () => {
+        initMap();
+    };
 }
