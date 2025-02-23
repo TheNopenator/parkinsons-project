@@ -3,12 +3,10 @@ const app = express();
 const path = require('path');
 const http = require('http');
 const cors = require('cors');
-const { mongoose } = require('mongoose');
+const mongoose = require('mongoose');
 const port = process.env.PORT || 5000;
 
 const mongoURI = 'mongodb+srv://mykelxu:RiceCream124!@parkinsonsdata.5iolr.mongodb.net/locationTracker?retryWrites=true&w=majority';
-
-let db;
 
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
@@ -19,6 +17,22 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     process.exit(1);
   });
 
+const locationSchema = new mongoose.Schema({
+  name: String,
+  user_id: String,
+  location: {
+    lat: Number,
+    lng: Number
+  },
+  timestamp: Date,
+  device: String,
+  note: String,
+  phoneNumber: String,
+  radius: Number,
+  messagesSent: Number
+});
+
+const Location = mongoose.model('Location', locationSchema);
 
 app.use(express.static(path.join(__dirname, '../frontend')));
 app.use(cors({
@@ -33,12 +47,8 @@ app.get('/get-location', async (req, res) => {
   const { name } = req.query;
   try {
       console.log(`Fetching location for: ${name}`);
-      
-      if (!db) {
-        return res.status(500).json({ message: 'Database connection not available' });
-      }
 
-      const userLocation = await db.collection('locations').findOne({ name });
+      const userLocation = await Location.findOne({ name });
       
       console.log('Fetched Location Data:', userLocation);
 
