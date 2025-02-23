@@ -16,7 +16,7 @@
     <div id="map" style="height: 400px; width: 100%;"></div>
 
     <script>
-        let map, marker, circle;
+        let map, marker, circle, line;
         let locationInterval;
 
         function initMap() {
@@ -43,20 +43,43 @@
 
                     const position = { lat: data.latitude, lng: data.longitude };
 
-                    if (marker) marker.setMap(null);
-                    marker = new google.maps.Marker({ position, map, title: name });
+                    if (!marker) {
+                        marker = new google.maps.Marker({map, title: name });
+                    }
+                    marker.setPosition(position);
 
                     if (!circle) {
                         circle = new google.maps.Circle({
-                            strokeColor: "#FF0000",
+                            strokeColor: "#0000FF",
                             strokeOpacity: 0.8,
                             strokeWeight: 2,
-                            fillColor: "#FF0000",
+                            fillColor: "#0000FF",
                             fillOpacity: 0.35,
                             map,
                             center: position,
                             radius: data.radius,
                         });
+                    }
+
+                    if (!line) {
+                        line = new google.maps.Polyline({
+                            strokeColor: "#0000FF",
+                            strokeOpacity: 1.0,
+                            strokeWeight: 2,
+                            map: map,
+                            path: [circle.getCenter(), marker.getPosition()],
+                            icon: [{
+                                icon: {
+                                    path: 'M 0,-1 0,1',
+                                    strokeOpacity: 1,
+                                    scale: 4,
+                                },
+                                offset: '0',
+                                repeat: '10px'
+                            }],
+                        });
+                    } else {
+                        line.setPath([circle.getCenter(), marker.getPosition()]);
                     }
 
                     map.setCenter(position);
