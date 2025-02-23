@@ -97,10 +97,10 @@ function openLocation(name, process) {
 
                     try {
                         console.log('Fetching location for:', name);
-                        const response = await fetch('https://locusqol.tech/get-location?name=' + encodeURIComponent(name), {
-                            cache: 'no-cache'
+                        const response = await fetch(\`https://locusqol.tech/get-location?name=${encodeURIComponent(name)}\`, {
+                            cache: 'no-cache',
                         });
-                        
+
                         const data = await response.json();
 
                         console.log("Fetched data:", data);

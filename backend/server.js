@@ -90,7 +90,7 @@ const getAddressFromCoordinates = async (lat, lng) => {
 // Randomly update the user's location every 5 seconds for all users in the database
 setInterval(async () => {
   const users = await Location.find();  // Get all users from the database
-
+  console.log('Updating location...');
   for (let user of users) {
     const currentLat = user.location.lat + (Math.random() - 0.5) * 0.01;  // Randomly update latitude
     const currentLng = user.location.lng + (Math.random() - 0.5) * 0.01;  // Randomly update longitude
