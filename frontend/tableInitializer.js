@@ -1,20 +1,53 @@
 // Initializes the front page's table
 const tableData = [
-    { process: 'Current Location', status: 'Running', started: '0 seconds ago'},
-    { process: 'Health Status', status: 'Inactive', started: '12 seconds ago'},
-    { process: 'Current Location', status: 'Running', started: '0 seconds ago'},
-    { process: 'Health Status', status: 'Inactive', started: '12 seconds ago'},
-    { process: 'Current Location', status: 'Running', started: '0 seconds ago'},
-    { process: 'Health Status', status: 'Inactive', started: '12 seconds ago'},
-    { process: 'Current Location', status: 'Running', started: '0 seconds ago'},
-    { process: 'Health Status', status: 'Inactive', started: '12 seconds ago'},
-    { process: 'Current Location', status: 'Running', started: '0 seconds ago'},
-    { process: 'Health Status', status: 'Inactive', started: '12 seconds ago'},
-    { process: 'Current Location', status: 'Running', started: '0 seconds ago'},
-    { process: 'Health Status', status: 'Inactive', started: '12 seconds ago'}
+    { process: 'Current Location', name: 'John Doe', last_called: '0 seconds ago'},
+    { process: 'Health Status', name: 'John Doe', last_called: '12 seconds ago'},
+    { process: 'Current Location', name: 'Jane Smith', last_called: '0 seconds ago'},
+    { process: 'Health Status', name: 'Jane Smith', last_called: '12 seconds ago'},
+    { process: 'Current Location', name: 'Bob Johnson', last_called: '0 seconds ago'},
+    { process: 'Health Status', name: 'Bob Johnson', last_called: '12 seconds ago'},
+    { process: 'Current Location', name: 'Alice Brown', last_called: '0 seconds ago'},
+    { process: 'Health Status', name: 'Alice Brown', last_called: '12 seconds ago'},
+    { process: 'Current Location', name: 'Charlie Wilson', last_called: '0 seconds ago'},
+    { process: 'Health Status', name: 'Charlie Wilson', last_called: '12 seconds ago'},
+    { process: 'Current Location', name: 'Daniel Green', last_called: '0 seconds ago'},
+    { process: 'Health Status', name: 'Daniel Green', last_called: '12 seconds ago'}
 ]
 
 const tableBody = document.querySelector('#active-processes tbody');
+
+function updateLastCalled(index) {
+    const currentTime = new Date().toLocaleTimeString();
+    tableData[index].last_called = `${currentTime}`;
+
+    renderTable();
+}
+
+function renderTable() {
+    tableBody.innerHTML = '';
+
+    tableData.forEach((rowData, index) => {
+        const row = document.createElement('tr');
+        Object.entries(rowData).forEach(([key, value]) => {
+            const cell = document.createElement('td');
+            if (key === 'process') {
+                const button = document.createElement('button');
+                button.textContent = value;
+                button.addEventListener('click', () => {
+                    openLocation(rowData.name, rowData.process);
+                    updateLastCalled(index);
+                });
+                cell.appendChild(button);
+            } else {
+                cell.textContent = value;
+            }
+            row.appendChild(cell);
+        });
+        tableBody.appendChild(row);
+    });
+}
+
+renderTable();
 
 tableData.forEach(rowData => {
     const row = document.createElement('tr');
@@ -24,7 +57,7 @@ tableData.forEach(rowData => {
             const button = document.createElement('button');
             button.textContent = value;
             button.addEventListener('click', () => {
-                openLocation(rowData.process);
+                openLocation(rowData.name, rowData.process);
             });
             cell.appendChild(button);
         } else {
@@ -35,7 +68,7 @@ tableData.forEach(rowData => {
     tableBody.appendChild(row);
 });
 
-function openLocation(process) {
+function openLocation(name, process) {
     const width = 1000;
     const height = 750;
     const left = ((screen.width / 2) - (width / 2));
@@ -60,10 +93,11 @@ function openLocation(process) {
         </head>
         <body> 
             <div id="map"></div>
-            
             <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5nXmXgfKvakxNr6hTwO-CzHbGrK-3qno"></script>
             <script>
                 let map;
+                const name = '${name}';
+                const process = '${process}';
 
                 function initMap() {
                     console.log("initMap called");
@@ -74,27 +108,24 @@ function openLocation(process) {
                     getLocation();
                 }
 
-                function getLocation() {
-                    console.log("getLocation called");
-                    if (navigator.geolocation) {
-                        navigator.geolocation.getCurrentPosition(
-                            (position) => {
-                                const lat = position.coords.latitude;
-                                const lng = position.coords.longitude;
-                                console.log("Latitude: " + lat + ", Longitude: " + lng);
-                                showLocationOnMap(lat, lng);
-                            },
-                            () => {
-                                alert("Geolocation failed.");
-                            }
-                        );
-                    } else {
-                        alert("Geolocation not supported.");
+                async function getLocation() {
+                    try {
+                        const response = await fetch('http://localhost:5000/get-location?name=' + encodeURIComponent(name));
+                        const data = await response.json();
+
+                        if (response.ok) {
+                            const lat = data.latitude;
+                            const lng = data.longitude;
+                            showLocationOnMap(lat, lng);
+                        } else {
+                            alert(data.message || "Error fetching user location.");
+                        }
+                    } catch (error) {
+                        alert("Error fetching location: " + error.message);
                     }
                 }
 
                 function showLocationOnMap(lat, lng) {
-                    console.log("showLocationOnMap called with lat: " + lat + ", lng: " + lng);
                     const userLocation = { lat: lat, lng: lng };
                     map.setCenter(userLocation);
 
@@ -114,6 +145,11 @@ function openLocation(process) {
                         strokeWeight: 2,
                         center: userLocation
                     });
+                }
+
+                function displayUserInfo() {
+                    document.body.innerHTML += "<h1>" + process + " for " + name + "</h1>";
+                    document.body.innerHTML += "<p>Last updated: " + new Date().toLocaleTimeString() + "</p>";
                 }
 
                 window.onload = initMap;

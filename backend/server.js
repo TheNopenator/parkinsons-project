@@ -10,16 +10,18 @@ const app = express();
 // Enable CORS to allow the frontend to make requests to this server
 app.use(cors());
 
-// Connect to MongoDB
 mongoose.connect(
   'mongodb+srv://mykelxu:RiceCream124!@parkinsonsdata.5iolr.mongodb.net/locationTracker?retryWrites=true&w=majority',
   {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 50000,  // 50 seconds for server selection timeout
+    socketTimeoutMS: 50000,           // 50 seconds for socket timeout
   }
 )
-  .then(() => console.log("MongoDB connected"))
-  .catch(err => console.log(err));
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => {
+    console.error('MongoDB connection error:', err);
+  });
+
 
 // Define a Mongoose schema for the location data
 const locationSchema = new mongoose.Schema({
