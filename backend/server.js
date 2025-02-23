@@ -10,6 +10,7 @@ const app = express();
 // Enable CORS to allow the frontend to make requests to this server
 app.use(cors());
 
+// Connect to MongoDB
 mongoose.connect(
   'mongodb+srv://mykelxu:RiceCream124!@parkinsonsdata.5iolr.mongodb.net/locationTracker?retryWrites=true&w=majority',
   {
