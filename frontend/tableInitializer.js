@@ -109,10 +109,18 @@ function openLocation(name, process) {
 
                             const position = { lat: data.latitude, lng: data.longitude };
 
-                            if (!marker) {
-                                marker = new google.maps.Marker({map, title: name});
+                            if (marker) {
+                                const currentPosition = marker.getPosition();
+                                if (currentPosition.lat() !== position.lat || currentPosition.lng() !== position.lng) {
+                                    marker.setPosition(position);
+                                }
+                            } else {
+                                marker = new google.maps.Marker({
+                                    map,
+                                    position: position,
+                                    title: name,
+                                });
                             }
-                            marker.setPosition(position);
 
                             if (!circle) {
                                 circle = new google.maps.Circle({
