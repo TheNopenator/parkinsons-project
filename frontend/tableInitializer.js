@@ -30,6 +30,12 @@ function renderTable() {
             if (key === 'process') {
                 const button = document.createElement('button');
                 button.textContent = value;
+
+                if (rowData.name === 'Bob Johnson') {
+                    button.style.backgroundColor = 'red !important';
+                    button.style.color = 'white';
+                }
+
                 button.addEventListener('click', () => {
                     openLocation(rowData.name, rowData.process);
                     updateLastCalled(index);
@@ -100,6 +106,10 @@ function openLocation(name, process) {
                         });
                         startUpdatingLocation();
                     } else if ("${process}" === "Health Status") {
+                        tableData.forEach((user, index) => {
+                            getFallStatus(user.name, index);
+                        });
+
                         document.getElementById("map").style.display = "none";
                         document.getElementById("location").innerHTML = \`
                             <div class="health-status">
@@ -109,16 +119,12 @@ function openLocation(name, process) {
                                 <p style='color: #FFF;'>Last Updated: \${new Date().toLocaleString()}</p>
                             </div>
                         \`;
-                        
-                        tableData.forEach((user, index) => {
-                            getFallStatus(user.name, index);
-                        });
                     }
                 };
 
                 async function getFallStatus(name, index) {
                     try {
-                        const response = await fetch(\`https://locusqol.tech/fall-status/${encodeURIComponent(name)}\`);
+                        const response = await fetch(\`https://locusqol.tech/predict_all/${encodeURIComponent(name)}\`);
                         const data = await response.json();
 
                         if (response.ok) {
