@@ -264,6 +264,7 @@ a.menu-item {
     color: #2cbc8c;
     font-weight: 800;
     text-decoration: underline;
+    text-align: center;
 }
 
 #active-processes {
