@@ -106,10 +106,6 @@ function openLocation(name, process) {
                         });
                         startUpdatingLocation();
                     } else if ("${process}" === "Health Status") {
-                        tableData.forEach((user, index) => {
-                            getFallStatus(user.name, index);
-                        });
-
                         document.getElementById("map").style.display = "none";
                         document.getElementById("location").innerHTML = \`
                             <div class="health-status">
@@ -119,6 +115,10 @@ function openLocation(name, process) {
                                 <p style='color: #FFF;'>Last Updated: \${new Date().toLocaleString()}</p>
                             </div>
                         \`;
+
+                        tableData.forEach((user, index) => {
+                            getFallStatus(user.name, index);
+                        });
                     }
                 };
 
