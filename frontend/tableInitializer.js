@@ -32,7 +32,7 @@ function renderTable() {
                 button.textContent = value;
 
                 if (rowData.name === 'Bob Johnson') {
-                    button.style.backgroundColor = 'red !important';
+                    button.style.backgroundColor = 'red';
                     button.style.color = 'white';
                 }
 
