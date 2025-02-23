@@ -109,17 +109,14 @@ function openLocation(name, process) {
 
                             const position = { lat: data.latitude, lng: data.longitude };
 
-                            if (marker) {
-                                const currentPosition = marker.getPosition();
-                                if (currentPosition.lat() !== position.lat || currentPosition.lng() !== position.lng) {
-                                    marker.setPosition(position);
-                                }
-                            } else {
+                            if (!marker) {
                                 marker = new google.maps.Marker({
                                     map,
                                     position: position,
                                     title: name,
                                 });
+                            } else {
+                                marker.setPosition(position);
                             }
 
                             if (!circle) {
@@ -135,14 +132,16 @@ function openLocation(name, process) {
                                 });
                             }
 
-                            if (!line) {
+                            if (line) {
+                                line.setPath([circle.getCenter(), marker.getPosition()]);
+                            } else {
                                 line = new google.maps.Polyline({
                                     strokeColor: "#0000FF",
                                     strokeOpacity: 1.0,
                                     strokeWeight: 2,
                                     map: map,
                                     path: [circle.getCenter(), marker.getPosition()],
-                                    icon: [{
+                                    icons: [{
                                         icon: {
                                             path: 'M 0,-1 0,1',
                                             strokeOpacity: 1,
@@ -152,8 +151,6 @@ function openLocation(name, process) {
                                         repeat: '10px'
                                     }],
                                 });
-                            } else {
-                                line.setPath([circle.getCenter(), marker.getPosition()]);
                             }
 
                             map.setCenter(position);
