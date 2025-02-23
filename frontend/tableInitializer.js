@@ -19,13 +19,11 @@ const tableBody = document.querySelector('#active-processes tbody');
 function updateLastCalled(index) {
     const currentTime = new Date().toLocaleTimeString();
     tableData[index].last_called = `${currentTime}`;
-
     renderTable();
 }
 
 function renderTable() {
     tableBody.innerHTML = '';
-
     tableData.forEach((rowData, index) => {
         const row = document.createElement('tr');
         Object.entries(rowData).forEach(([key, value]) => {
@@ -77,10 +75,7 @@ function openLocation(name, process) {
             <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5nXmXgfKvakxNr6hTwO-CzHbGrK-3qno&callback=initMap" async defer></script>
         </head>
         <body>
-            <h1>Get User Location</h1>
-            <input type="text" id="name" placeholder="Enter User's Name">
-            <button onclick="startUpdatingLocation()">Start Live Location Update</button>
-            <button onclick="stopUpdatingLocation()">Stop Live Location Update</button>
+            <h1>${name}</h1>
             <div id="location"></div>
             <div id="map"></div>
 
@@ -89,15 +84,16 @@ function openLocation(name, process) {
                 let locationInterval;
 
                 function initMap() {
-                    console.log("initMap called");
                     map = new google.maps.Map(document.getElementById("map"), {
                         center: { lat: 40.7128, lng: -74.0060 },
                         zoom: 15
                     });
+
+                    startUpdatingLocation();
                 }
 
                 async function getLocation() {
-                    const name = document.getElementById("name").value;
+                    const name = "${name}";
 
                     try {
                         const response = await fetch('http://localhost:5000/get-location?name=' + encodeURIComponent(name));
@@ -163,13 +159,8 @@ function openLocation(name, process) {
                 }
 
                 function startUpdatingLocation() {
-                    const name = document.getElementById("name").value;
-                    if (name) {
-                        getLocation();
-                        locationInterval = setInterval(getLocation, 5000);
-                    } else {
-                        alert("Please enter a name!");
-                    }
+                    getLocation();
+                    locationInterval = setInterval(getLocation, 5000);
                 }
 
                 function stopUpdatingLocation() {
